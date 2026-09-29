@@ -45,11 +45,11 @@ The output is meant for a README, so every button produces something GitHub can 
 ## 🚀 Live Website
 
 <div align="center">
-  <p>Click the image below to explore ReadMe Lab ↓</p>
+  <p>Click the image below to explore ReadMeLab ↓</p>
 
-  <a href="https://jenhmy.github.io/text-to-markdown" target="_blank">
+  <a href="https://jenhmy.github.io/read-me-lab" target="_blank">
     <img
-      src="https://raw.githubusercontent.com/jenhmy/text-to-markdown/main/png/readme.png"
+      src="https://raw.githubusercontent.com/jenhmy/read-me-lab/main/png/readme.png"
       alt="ReadMeLab"
       width="800"      
     >
