@@ -1,5 +1,5 @@
 <h1>
-  🎨 ReadMeLab
+  🧊 ReadMeLab
 </h1>
 
 **ReadMeLab** is a visual editor that writes Markdown for you. You type and style your text in a simple rich text box, like a basic word processor, and on the right you see the equivalent Markdown in real time, ready to copy or download.
@@ -45,11 +45,11 @@ The output is meant for a README, so every button produces something GitHub can 
 ## 🚀 Live Website
 
 <div align="center">
-  <p>Click the image below to explore ReadMe Lab ↓</p>
+  <p>Click the image below to explore ReadMeLab ↓</p>
 
-  <a href="https://jenhmy.github.io/text-to-markdown" target="_blank">
+  <a href="https://jenhmy.github.io/read-me-lab" target="_blank">
     <img
-      src="https://raw.githubusercontent.com/jenhmy/text-to-markdown/main/png/readme.png"
+      src="https://raw.githubusercontent.com/jenhmy/read-me-lab/main/png/readme.png"
       alt="ReadMeLab"
       width="800"      
     >
