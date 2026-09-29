@@ -2627,3 +2627,25 @@ if (fsRoot.requestFullscreen || fsRoot.webkitRequestFullscreen) {
 } else {
   btnFullscreen.hidden = true;
 }
+
+/* ===================== Theme ===================== */
+const btnTheme = document.getElementById("btnTheme");
+
+/** Returns the active theme, "light" or "dark". */
+function currentTheme() {
+  return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+}
+
+/** Sets the theme, updates the button label and optionally remembers the choice. */
+function applyTheme(theme, save) {
+  document.documentElement.setAttribute("data-theme", theme);
+  const next = theme === "light" ? "Dark theme" : "Light theme";
+  btnTheme.title = next;
+  btnTheme.setAttribute("aria-label", next);
+  if (save) {
+    try { localStorage.setItem("theme", theme); } catch (e) { /* storage unavailable */ }
+  }
+}
+
+btnTheme.addEventListener("click", () => applyTheme(currentTheme() === "light" ? "dark" : "light", true));
+applyTheme(currentTheme(), false);
