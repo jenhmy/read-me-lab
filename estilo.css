@@ -84,17 +84,14 @@ body {
 
 /* Toolbar / ribbon */
 .toolbar {
-  background: var(--bg-3);
+  background: #1b2028;
   border-bottom: 1px solid var(--border);
   padding: 6px 10px;
 }
-.panel { display: none; flex-wrap: wrap; gap: 8px; }
-/* On narrow screens the toolbar wraps into rows, or scrolls when there is little height. */
-@media (max-width: 900px) and (max-height: 799px) and (orientation: portrait) {
-  .panel.active { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; padding-bottom: 4px; }
-  .group { flex: none; }
-}
-.panel.active { display: flex; }
+/* Toolbar buttons stay on one row and scroll sideways when the window is small. */
+.panel { display: none; flex-wrap: nowrap; gap: 8px; }
+.panel.active { display: flex; overflow-x: auto; padding-bottom: 4px; }
+.group { flex: none; }
 
 .group {
   position: relative;
@@ -442,7 +439,7 @@ body {
 
 /* Short screens: landscape phones and squashed windows. */
 @media (max-width: 900px) and (max-height: 599px) and (orientation: landscape) {
-  .panel.active { flex-wrap: wrap; overflow-x: visible; }
+  .panel.active { flex-wrap: nowrap; overflow-x: auto; }
   .toolbar button { min-width: 33px; min-height: 33px; padding: 3px 4px; }
   .toolbar button svg { width: 15px; height: 15px; }
   .group { padding: 2px 4px 10px 4px; gap: 2px; }
@@ -502,3 +499,17 @@ body {
   padding-top: 3px !important;
   padding-bottom: 0 !important;
 }
+
+/* Dark scrollbars matching the page */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #30363d transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 6px;
+  border: 2px solid var(--bg);
+}
+*::-webkit-scrollbar-thumb:hover { background: #484f58; }
