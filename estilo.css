@@ -28,6 +28,9 @@ body {
 }
 
 .topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px 18px;
   background: var(--bg-2);
   border-bottom: 1px solid var(--border);
@@ -513,3 +516,22 @@ body {
   border: 2px solid var(--bg);
 }
 *::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+/* Full screen button on the right of the title bar. */
+#btnFullscreen {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 0;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 4px;
+  cursor: pointer;
+}
+#btnFullscreen svg { width: 16px; height: 16px; }
+#btnFullscreen:hover { background: #30363d; border-color: var(--accent); }
+#btnFullscreen:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+#btnFullscreen[hidden] { display: none; }

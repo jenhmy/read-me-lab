@@ -2592,3 +2592,38 @@ async function insertTemplate() {
 
 document.getElementById("btnTemplate").addEventListener("click", insertTemplate);
 
+/* ===================== Full screen ===================== */
+const btnFullscreen = document.getElementById("btnFullscreen");
+const fsRoot = document.documentElement;
+const FS_ENTER_PATH = "M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4";
+const FS_EXIT_PATH = "M6 2v4H2M14 6h-4V2M10 14v-4h4M2 10h4v4";
+
+/** Returns the element currently in full screen, or null (with the Safari prefix as fallback). */
+function fullscreenElement() {
+  return document.fullscreenElement || document.webkitFullscreenElement || null;
+}
+
+/** Enters or leaves full screen. */
+function toggleFullscreen() {
+  if (fullscreenElement()) {
+    (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+  } else {
+    (fsRoot.requestFullscreen || fsRoot.webkitRequestFullscreen).call(fsRoot);
+  }
+}
+
+/** Swaps the icon and title depending on whether full screen is on. */
+function updateFullscreenButton() {
+  const on = !!fullscreenElement();
+  document.getElementById("fsIcon").setAttribute("d", on ? FS_EXIT_PATH : FS_ENTER_PATH);
+  btnFullscreen.title = on ? "Exit full screen" : "Full screen";
+  btnFullscreen.setAttribute("aria-label", btnFullscreen.title);
+}
+
+if (fsRoot.requestFullscreen || fsRoot.webkitRequestFullscreen) {
+  btnFullscreen.addEventListener("click", toggleFullscreen);
+  document.addEventListener("fullscreenchange", updateFullscreenButton);
+  document.addEventListener("webkitfullscreenchange", updateFullscreenButton);
+} else {
+  btnFullscreen.hidden = true;
+}
