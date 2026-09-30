@@ -1,5 +1,5 @@
 <h1>
-  ⚡ ReadMeLab
+  ReadMeLab
 </h1>
 
 **ReadMeLab** is a visual editor that writes Markdown for you. You type and style your text in a simple rich text box, like a basic word processor, and on the right you see the equivalent Markdown in real time, ready to copy or download.

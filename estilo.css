@@ -4,6 +4,7 @@
   --bg-2: #1f252d;
   --bg-3: #29303a;
   --bg-toolbar: #242a33;
+  --btn-bg: #1f252d;
   --bg-group: rgba(255, 255, 255, 0.02);
   --hover: #38404b;
   --border: #38404b;
@@ -14,10 +15,11 @@
   --text-output: #cdd6e0;
   --code-bg: #3d4652;
   --accent: #4493f8;
+  --primary: #1f6feb;
+  --primary-hover: #388bfd;
   --accent-2: #238636;
   --accent-2-hover: #2ea043;
   --danger: #f85149;
-  --danger-solid: #da3633;
   --focus-ring: rgba(56, 189, 248, 0.25);
   --scrim: rgba(0, 0, 0, 0.55);
   --thumb: #38404b;
@@ -32,31 +34,33 @@
 }
 
 :root[data-theme="light"] {
-  --bg: #e6e9ed;
-  --bg-2: #d8dce1;
-  --bg-3: #eceff2;
-  --bg-toolbar: #dde1e6;
-  --bg-group: rgba(0, 0, 0, 0.03);
-  --hover: #cbd0d6;
-  --border: #b6bdc6;
-  --border-strong: #b6bdc6;
-  --text: #1f2328;
-  --text-dim: #4c5661;
-  --text-muted: #4c5661;
-  --text-output: #1f2328;
-  --code-bg: #cbd0d6;
-  --accent: #0b5fc0;
+  --bg: #fefefe;
+  --bg-2: #eef4fa;
+  --bg-3: #f4f8fc;
+  --bg-toolbar: #f0f5fb;
+  --btn-bg: #f4f8fc;
+  --bg-group: #f6f9fe;
+  --hover: #e2ebf7;
+  --border: #d5e0ef;
+  --border-strong: #d0dcec;
+  --text: #111c30;
+  --text-dim: #50658a;
+  --text-muted: #5a6f92;
+  --text-output: #1a2740;
+  --code-bg: #e4ecf7;
+  --accent: #1465f6;
+  --primary: #1157d6;
+  --primary-hover: #0d47b0;
   --accent-2: #1f7a38;
   --accent-2-hover: #1a6b30;
   --danger: #d1242f;
-  --danger-solid: #cf222e;
   --focus-ring: rgba(9, 105, 218, 0.25);
   --scrim: rgba(31, 35, 40, 0.45);
-  --thumb: #a9b1ba;
+  --thumb: #c5d3e8;
   --swatch-ring: #1f2328;
   --swatch-edge: rgba(0, 0, 0, 0.18);
   --dot-border: rgba(0, 0, 0, 0.25);
-  --check-done: #4c5661;
+  --check-done: #50658a;
   --tick-color: #ffffff;
   --tick-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23ffffff' d='M13.78 4.22a.75.75 0 0 1 0 1.06l-7 7a.75.75 0 0 1-1.06 0l-3.5-3.5a.75.75 0 1 1 1.06-1.06L6.25 10.69l6.47-6.47a.75.75 0 0 1 1.06 0Z'/%3E%3C/svg%3E");
   color-scheme: light;
@@ -85,7 +89,7 @@ body {
 
 /* Buttons shared by the toolbar, the actions bar, the title bar actions and the modals. */
 .toolbar button, .actions button, .doc-actions button, .modal button {
-  background: var(--bg-2);
+  background: var(--btn-bg);
   border: 1px solid var(--border);
   color: var(--text);
   border-radius: 4px;
@@ -153,7 +157,7 @@ body {
   background: var(--bg-2);
   border-bottom: 1px solid var(--border);
 }
-.actions button { padding: 8px 12px; display: inline-flex; align-items: center; gap: 6px; }
+.actions button { padding: 8px 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
 .actions button svg { margin: 0; flex: none; }
 
 /* ===== Tabs ===== */
@@ -400,10 +404,8 @@ body {
 /* Buttons: confirm, cancel, add row. */
 .modal .row { display: flex; gap: 8px; margin-top: 16px; }
 .modal .row button { flex: 1; padding: 9px; }
-.modal .primary { background: var(--accent-2); border-color: var(--accent-2); }
-.modal .primary:hover { background: var(--accent-2-hover); }
-.modal .primary.destructive { background: var(--danger-solid); border-color: var(--danger-solid); }
-.modal .primary.destructive:hover { background: var(--danger); }
+.modal .primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+.modal .primary:hover { background: var(--primary-hover); }
 .modal .add-row {
   width: 100%;
   margin-top: 10px;
@@ -525,7 +527,6 @@ body {
   .switch-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
   .toolbar button, .actions button, .doc-actions button { min-width: 40px; min-height: 40px; }
   /* Compact action buttons on narrow screens. */
-  .wide-only { display: none; }
   .actions button { padding: 8px 10px; font-size: 0.82rem; }
   .doc-actions { gap: 4px; padding-left: 8px; }
   .doc-actions button { padding: 5px 6px; }
@@ -548,6 +549,9 @@ body {
 }
 
 @media (max-width: 480px) {
+  /* Import, copy and download keep only their icon so the actions bar fits on one row. */
+  .actions .btn-label { display: none; }
+  .actions button { padding: 8px; }
   .modal .icon-grid { grid-template-columns: repeat(3, 1fr); }
   .modal .emoji-grid { grid-template-columns: repeat(7, 1fr); }
   .modal .palette { gap: 3px; }

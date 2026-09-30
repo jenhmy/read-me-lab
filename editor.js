@@ -190,43 +190,6 @@ function align(command) {
   render();
 }
 
-/** Toggles centering of the table under the caret by wrapping it in a div with align. */
-function toggleTableCenter() {
-  restoreSelection();
-  const sel = window.getSelection();
-  const tabla = sel.rangeCount ? closestTag(sel.getRangeAt(0).startContainer, "table") : null;
-  if (!tabla) { toast("Put the cursor inside a table first"); return; }
-
-  const r = sel.getRangeAt(0);
-  const dondeEstaba = r.startContainer;
-  const cuanto = r.startOffset;
-
-  const padre = tabla.parentElement;
-  const envuelta = padre && padre.tagName === "DIV" && padre.hasAttribute("align") && padre !== editor;
-  if (envuelta && padre.getAttribute("align") === "center") {
-    padre.replaceWith(tabla);
-  } else if (envuelta) {
-    padre.setAttribute("align", "center");
-  } else {
-    const div = document.createElement("div");
-    div.setAttribute("align", "center");
-    tabla.replaceWith(div);
-    div.appendChild(tabla);
-  }
-
-  if (editor.contains(dondeEstaba)) {
-    const vuelta = document.createRange();
-    const tope = dondeEstaba.nodeType === 3
-      ? dondeEstaba.textContent.length : dondeEstaba.childNodes.length;
-    vuelta.setStart(dondeEstaba, Math.min(cuanto, tope));
-    vuelta.collapse(true);
-    sel.removeAllRanges();
-    sel.addRange(vuelta);
-  }
-  editor.focus();
-  render();
-}
-
 /** Toggles a heading level on the selected blocks. */
 function toggleHeading(tag) {
   restoreSelection();
@@ -750,7 +713,6 @@ async function runCommand(cmd) {
       alignFromButton(cmd); break;
     case "toc": insertToc(); break;
     case "table": await insertTable(); break;
-    case "table-center": toggleTableCenter(); break;
 
     case "link": await insertLink(); break;
     case "image": await insertImage(); break;
@@ -1336,7 +1298,7 @@ async function insertGallery() {
 /** Returns the HTML for the GitHub username field, prefilled with the last one used. */
 function userFieldHtml() {
   return `<label>GitHub username</label>
-     <input type="text" data-field="user" data-required placeholder="e.g. octocat" value="${escapeHtml(ghUsername)}">
+     <input type="text" data-field="user" data-required placeholder="e.g. octocat" value="${escapeHtml(ghUsername || "octocat")}">
      <p class="hint">Your username is not saved.</p>`;
 }
 /** Extracts the username from dialog data, without a leading @. */
@@ -1438,10 +1400,10 @@ function wireColorTabs(m) {
 /** Opens the badge modal and inserts the badge image, optionally wrapped in a link. */
 async function insertBadge() {
   const data = await modal("Badge",
-    `${serviceNote("shields.io", "https://shields.io/")}${previewBox()}<label>Label. Leave the message empty for a single, plain badge</label>
-     <input type="text" data-field="label" placeholder="e.g. Focus">
+    `${serviceNote("shields.io", "https://shields.io/")}${previewBox()}<label>Label</label>
+     <input type="text" data-field="label" value="Label" placeholder="e.g. Focus">
      <label>Message (optional)</label>
-     <input type="text" data-field="message" placeholder="e.g. Web Development">
+     <input type="text" data-field="message" value="Message" placeholder="e.g. Web Development">
      <label>Size and style</label>
      ${labelledSelect("style", [
        ["for-the-badge", "Big (for-the-badge)"],
@@ -1514,7 +1476,7 @@ function skilliconsUrl(v) {
 async function insertSkillicons() {
   const data = await modal("Tech icons",
     `${serviceNote("skillicons.dev", "https://skillicons.dev/")}${previewBox()}<label>Technologies, separated by commas</label>
-     <input type="text" data-field="icons" placeholder="e.g. js,react,python,docker">
+     <input type="text" data-field="icons" value="md" placeholder="e.g. js,react,python,docker">
      <label>Theme</label>${themeSelect("theme", ["dark", "light"], "dark")}`,
     "Insert", (m) => wirePreview(m, skilliconsUrl));
   if (!data || !data.icons) return;
@@ -1539,19 +1501,19 @@ async function insertQr() {
 }
 
 /** Banner shapes offered by Capsule Render. */
-const BANNER_TYPES = ["waving", "rect", "rounded", "soft", "slice", "cylinder", "egg", "shark", "blur"];
+const BANNER_TYPES = ["waving", "rect", "rounded", "soft", "slice", "cylinder", "egg", "blur"];
 /** Builds the Capsule Render banner URL with a two-color gradient. */
 function bannerUrl(v) {
   if (!v.title) return "";
   return `https://capsule-render.vercel.app/api?type=${encodeURIComponent(v.type || "waving")}` +
     `&color=0:${hex(v.c1, "0f172a")},100:${hex(v.c2, "38bdf8")}` +
     `&height=220&section=header&text=${encodeURIComponent(v.title)}` +
-    `&fontSize=40&fontColor=ffffff&desc=${encodeURIComponent(v.subtitle || "")}&descSize=16`;
+    `&fontSize=40&fontColor=ffffff&fontAlignY=38&desc=${encodeURIComponent(v.subtitle || "")}&descSize=22&descAlignY=60`;
 }
 /** Opens the banner modal and inserts a centered banner block. */
 async function insertBanner() {
   const data = await modal("Banner",
-    `${serviceNote("Capsule Render", "https://github.com/kyechan99/capsule-render")}${previewBox()}<label>Title</label><input type="text" data-field="title" placeholder="e.g. Hello World">
+    `${serviceNote("Capsule Render", "https://github.com/kyechan99/capsule-render")}${previewBox()}<label>Title</label><input type="text" data-field="title" value="Hello World" placeholder="e.g. Hello World">
      <label>Subtitle (optional)</label><input type="text" data-field="subtitle" placeholder="e.g. Purpose · Discipline · Code">
      <label>Shape</label>${themeSelect("type", BANNER_TYPES, "waving")}
      <label>Gradient start</label>${paletteHtml("#1f2937", "c1")}
@@ -1577,7 +1539,7 @@ function typingUrl(v) {
 async function insertTyping() {
   const data = await modal("Typing animation",
     `${serviceNote("Readme Typing SVG", "https://github.com/DenverCoder1/readme-typing-svg")}${previewBox()}<label>Text. One line is enough; several lines take turns, one at a time</label>
-     <textarea data-field="lines" rows="3" placeholder="e.g. Hello World"></textarea>
+     <textarea data-field="lines" rows="3" placeholder="e.g. Hello World">Hello World</textarea>
      <label>Color</label>${paletteHtml("#38bdf8", "color")}
      <input type="text" data-field="color" value="38bdf8" style="margin-top:8px">`,
     "Insert",
@@ -2613,8 +2575,14 @@ function toggleFullscreen() {
 }
 
 /** Swaps the icon and title depending on whether full screen is on. */
+// Frees any orientation lock left after leaving full screen.
+function releaseOrientation() {
+  try { if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch (e) {}
+}
+
 function updateFullscreenButton() {
   const on = !!fullscreenElement();
+  if (!on) releaseOrientation();
   document.getElementById("fsIcon").setAttribute("d", on ? FS_EXIT_PATH : FS_ENTER_PATH);
   btnFullscreen.title = on ? "Exit full screen" : "Full screen";
   btnFullscreen.setAttribute("aria-label", btnFullscreen.title);
