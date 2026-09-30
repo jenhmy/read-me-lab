@@ -1554,8 +1554,8 @@ function viewsUrl(user, v) {
   const id = `${user}.${user}`;
   let url = `https://visitor-badge.laobi.icu/badge?page_id=${encodeURIComponent(id)}` +
     `&left_text=${encodeURIComponent(v.label || "Profile views")}` +
-    `&left_color=${hex(v.labelColor, "24292f")}` +
-    `&right_color=${hex(v.color, "1d4ed8")}`;
+    `&left_color=%23${hex(v.labelColor, "24292f")}` +
+    `&right_color=%23${hex(v.color, "1d4ed8")}`;
   if (v.rounded) url += `&radius=6`;
   return url;
 }
